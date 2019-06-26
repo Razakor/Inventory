@@ -13,6 +13,7 @@ class CharacterAdapter(_character: Character, _count: Int)
     var count: Int = _count
     var character: Character = _character
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
         val context: Context = parent.context
         val layoutId: Int = R.layout.character_list_item

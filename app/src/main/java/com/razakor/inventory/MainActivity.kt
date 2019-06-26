@@ -16,6 +16,8 @@ import kotlinx.android.synthetic.main.content_character.*
 class MainActivity : AppCompatActivity() {
 
     var characters: MutableList<Character> = mutableListOf()
+    lateinit var characterAdapter: CharacterAdapter
+    lateinit var characterRecycler: RecyclerView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 val characterRecycler: RecyclerView = findViewById(R.id.rv_character)
                 val layoutManager = LinearLayoutManager(this)
                 characterRecycler.layoutManager = layoutManager
-                val characterAdapter = CharacterAdapter(character, characters.size)
+                characterAdapter = CharacterAdapter(character, characters.size)
                 characterRecycler.adapter = characterAdapter
             }
 
