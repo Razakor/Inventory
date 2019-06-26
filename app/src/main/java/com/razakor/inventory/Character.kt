@@ -4,6 +4,7 @@ class Character {
     var name: String = "Character"
     var race: String = "Race"
     var clas: String = "Class"
+
     var xp: Int = 0
         set(value) {
             when {
@@ -31,15 +32,15 @@ class Character {
             field = value
         }
     var lvl: Int = 1
+
     var gold: Int = 0
     var silver: Int = 0
     var copper: Int = 0
     var platinum: Int = 0
     var electrum: Int = 0
 
-    var inventory: List<Item> = listOf()
+    var inventory: MutableList<Item> = mutableListOf()
 
-
-
-
+    fun addItem(item: Item) = inventory.add(item)
+    fun removeItem(item: Item) = inventory.remove(item)
 }

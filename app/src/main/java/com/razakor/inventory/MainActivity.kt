@@ -1,12 +1,15 @@
 package com.razakor.inventory
 
+import android.app.AlertDialog
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
 
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.character_dialog.view.*
+import kotlinx.android.synthetic.main.content_character.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,9 +18,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        btnAddCharacter.setOnClickListener { view ->
+            val characterDialog = LayoutInflater.from(this).inflate(R.layout.character_dialog, null)
+            val characterDialogBuilder = AlertDialog.Builder(this)
+                .setView(characterDialog)
+                .setTitle("Create Character")
+            val  characterAlertDialog = characterDialogBuilder.show()
+            characterDialog.btnOK.setOnClickListener {
+                characterAlertDialog.dismiss()
+                val name = characterDialog.edit_name.text.toString()
+                val race = characterDialog.edit_race.text.toString()
+                val clas = characterDialog.edit_class.text.toString()
+                val xp = characterDialog.edit_experience.text.toString()
+                 textView.setText("Name: $name, Race: $race, Class: $clas, XP: $xp")
+            }
+            characterDialog.btnCancel.setOnClickListener {
+                characterAlertDialog.dismiss()
+            }
         }
     }
 
