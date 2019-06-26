@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.character_dialog.view.*
@@ -39,6 +41,13 @@ class MainActivity : AppCompatActivity() {
                 character.clas = characterDialog.edit_class.text.toString()
                 character.xp = characterDialog.edit_experience.text.toString().toInt()
 
+                characters.add(character)
+
+                val characterRecycler: RecyclerView = findViewById(R.id.rv_character)
+                val layoutManager = LinearLayoutManager(this)
+                characterRecycler.layoutManager = layoutManager
+                val characterAdapter = CharacterAdapter(character, characters.size)
+                characterRecycler.adapter = characterAdapter
             }
 
             characterDialog.btnCancel.setOnClickListener {
@@ -46,7 +55,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
