@@ -13,6 +13,9 @@ import kotlinx.android.synthetic.main.content_character.*
 
 class MainActivity : AppCompatActivity() {
 
+    var characters: MutableList<Character> = mutableListOf()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -23,20 +26,28 @@ class MainActivity : AppCompatActivity() {
             val characterDialogBuilder = AlertDialog.Builder(this)
                 .setView(characterDialog)
                 .setTitle("Create Character")
+
             val  characterAlertDialog = characterDialogBuilder.show()
+
             characterDialog.btnOK.setOnClickListener {
                 characterAlertDialog.dismiss()
-                val name = characterDialog.edit_name.text.toString()
-                val race = characterDialog.edit_race.text.toString()
-                val clas = characterDialog.edit_class.text.toString()
-                val xp = characterDialog.edit_experience.text.toString()
-                 textView.setText("Name: $name, Race: $race, Class: $clas, XP: $xp")
+
+                val character = Character()
+
+                character.name = characterDialog.edit_name.text.toString()
+                character.race = characterDialog.edit_race.text.toString()
+                character.clas = characterDialog.edit_class.text.toString()
+                character.xp = characterDialog.edit_experience.text.toString().toInt()
+
             }
+
             characterDialog.btnCancel.setOnClickListener {
                 characterAlertDialog.dismiss()
             }
         }
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
