@@ -15,13 +15,15 @@ import kotlinx.android.synthetic.main.content_character.*
 
 class MainActivity : AppCompatActivity() {
 
-    var characters: MutableList<Character> = mutableListOf()
+    private var characters: MutableList<Character> = mutableListOf()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        createCharacterRecyclerView()
 
         btnAddCharacter.setOnClickListener { view ->
             val characterDialog = LayoutInflater.from(this).inflate(R.layout.character_dialog, null)
@@ -42,12 +44,6 @@ class MainActivity : AppCompatActivity() {
                 character.xp = characterDialog.edit_experience.text.toString().toInt()
 
                 characters.add(character)
-
-                val characterRecycler: RecyclerView = findViewById(R.id.rv_character)
-                val layoutManager = LinearLayoutManager(this)
-                characterRecycler.layoutManager = layoutManager
-                val characterAdapter = CharacterAdapter(character, characters.size)
-                characterRecycler.adapter = characterAdapter
             }
 
             characterDialog.btnCancel.setOnClickListener {
@@ -55,6 +51,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun createCharacterRecyclerView() {
+        val characterRecycler: RecyclerView = findViewById(R.id.rv_character)
+        val layoutManager = LinearLayoutManager(this)
+        val characterAdapter = CharacterAdapter(characters)
+        characterRecycler.layoutManager = layoutManager
+        characterRecycler.adapter = characterAdapter
+    }
+
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

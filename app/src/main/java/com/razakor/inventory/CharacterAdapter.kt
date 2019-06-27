@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class CharacterAdapter(_character: Character, _count: Int)
+class CharacterAdapter(_characters: MutableList<Character>)
     : RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
 
-    var count: Int = _count
-    var character: Character = _character
+    private val characters: MutableList<Character> = _characters
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
         val context: Context = parent.context
@@ -23,11 +22,11 @@ class CharacterAdapter(_character: Character, _count: Int)
     }
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
-        holder.bind(character.name, character.race, character.clas, character.lvl)
+        holder.bind(characters[position].name, characters[position].race, characters[position].clas, characters[position].lvl)
     }
 
     override fun getItemCount(): Int {
-        return count
+        return characters.size
     }
 
     class CharacterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
