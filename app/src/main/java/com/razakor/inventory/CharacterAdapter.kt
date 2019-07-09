@@ -1,19 +1,26 @@
 package com.razakor.inventory
 
 import android.content.Context
+import android.database.sqlite.SQLiteDatabase
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
-class CharacterAdapter(_characters: MutableList<Character>)
+class CharacterAdapter(_db: SQLiteDatabase, _characters: MutableList<Character>)
     : RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
 
+
+
     private val characters: MutableList<Character> = _characters
+    private val db: SQLiteDatabase = _db
+    private lateinit var context: Context
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
-        val context: Context = parent.context
+        context = parent.context
         val layoutId: Int = R.layout.character_list_item
         val inflater: LayoutInflater = LayoutInflater.from(context)
         val view: View = inflater.inflate(layoutId, parent, false)
@@ -23,6 +30,14 @@ class CharacterAdapter(_characters: MutableList<Character>)
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
         holder.bind(characters[position].name, characters[position].race, characters[position].clas, characters[position].lvl)
+
+        holder.itemView.setOnLongClickListener {
+            Toast.makeText(context, "Item deleted at position $position", Toast.LENGTH_LONG).show()
+            deleteCharacterFromDatabase(db, characters[position])
+            characters.removeAt(position)
+            notifyItemRemoved(position)
+            return@setOnLongClickListener true
+        }
     }
 
     override fun getItemCount(): Int {

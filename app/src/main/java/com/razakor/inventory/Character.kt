@@ -1,6 +1,7 @@
 package com.razakor.inventory
 
 class Character {
+    var id: Int = 0
     var name: String = "Character"
     var race: String = "Race"
     var clas: String = "Class"
@@ -32,6 +33,7 @@ class Character {
             field = value
         }
     var lvl: Int = 1
+    var description: String = "Description"
 
     var gold: Int = 0
     var silver: Int = 0
