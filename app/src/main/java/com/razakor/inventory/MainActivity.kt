@@ -55,8 +55,8 @@ class MainActivity : AppCompatActivity() {
                 val character = Character()
 
                 character.name = characterDialog.edit_name.text.toString()
-                character.race = characterDialog.edit_race.text.toString()
-                character.clas = characterDialog.edit_class.text.toString()
+                //character.race = characterDialog.edit_race.text.toString()
+                //character.clas = characterDialog.edit_class.text.toString()
                 character.xp = characterDialog.edit_experience.text.toString().toInt()
 
                 characters.add(character)

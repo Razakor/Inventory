@@ -10,24 +10,26 @@
             android:layout_height="wrap_content"
             android:hint="Name"
             android:layout_alignParentStart="true"
+            android:inputType="textPersonName"
     />
 
-    <EditText
-            android:id="@+id/edit_race"
-            android:layout_width="match_parent"
+    <Spinner
+            android:id="@+id/spinner_race"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Race"
             android:layout_below="@+id/edit_name"
             android:layout_alignParentStart="true"
     />
 
-    <EditText
-            android:id="@+id/edit_class"
-            android:layout_width="match_parent"
+    <Spinner
+            android:id="@+id/spinner_class"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Class"
-            android:layout_below="@+id/edit_race"
-            android:layout_alignParentStart="true"
+            android:layout_below="@+id/edit_name"
+
+            android:layout_marginLeft="200dp"
     />
 
     <EditText
@@ -35,8 +37,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Experience"
-            android:layout_below="@+id/edit_class"
+            android:layout_below="@+id/spinner_race"
             android:layout_alignParentStart="true"
+            android:inputType="number"
+
     />
 
     <Button
