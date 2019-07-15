@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.character_dialog.view.*
 import android.database.sqlite.SQLiteDatabase
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import kotlinx.android.synthetic.main.character_dialog.*
 
 
@@ -58,19 +59,24 @@ class MainActivity : AppCompatActivity() {
             classAA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerClass.adapter = classAA
 
+
             characterDialog.btnOK.setOnClickListener {
                 characterAlertDialog.dismiss()
 
                 val character = Character()
 
-                character.name = characterDialog.edit_name.text.toString()
-                character.race = spinnerRace.selectedItem.toString()
-                character.clas = spinnerClass.selectedItem.toString()
-                character.xp = characterDialog.edit_experience.text.toString().toInt()
+                if (characterDialog.edit_name.text.toString() != "") {
+                    character.name = characterDialog.edit_name.text.toString()
+                    character.race = spinnerRace.selectedItem.toString()
+                    character.clas = spinnerClass.selectedItem.toString()
+                    character.xp = characterDialog.edit_experience.text.toString().toInt()
 
-                characters.add(character)
-                addCharacterToDatabase(db, character, raceMap[character.race]!!, classMap[character.clas]!!)
-                setCharacterIdFromDatabase(db, character, raceMap[character.race]!!, classMap[character.clas]!!)
+                    characters.add(character)
+                    addCharacterToDatabase(db, character, raceMap[character.race]!!, classMap[character.clas]!!)
+                    setCharacterIdFromDatabase(db, character, raceMap[character.race]!!, classMap[character.clas]!!)
+                } else {
+                    Toast.makeText(this, "Set correct name", Toast.LENGTH_LONG).show()
+                }
             }
 
             characterDialog.btnCancel.setOnClickListener {

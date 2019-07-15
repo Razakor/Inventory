@@ -12,12 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 class CharacterAdapter(_db: SQLiteDatabase, _characters: MutableList<Character>)
     : RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
 
-
-
     private val characters: MutableList<Character> = _characters
     private val db: SQLiteDatabase = _db
     private lateinit var context: Context
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
         context = parent.context
@@ -31,6 +28,7 @@ class CharacterAdapter(_db: SQLiteDatabase, _characters: MutableList<Character>)
         holder.bind(characters[position].name, characters[position].race, characters[position].clas, characters[position].lvl)
 
         holder.itemView.setOnClickListener {
+
         }
 
         holder.itemView.setOnLongClickListener {
