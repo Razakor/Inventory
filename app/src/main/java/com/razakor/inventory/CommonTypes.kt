@@ -7,11 +7,32 @@ lateinit var classMap: MutableMap<String, Int>
 lateinit var rarityMap: MutableMap<String, Int>
 lateinit var typeMap: MutableMap<String, Int>
 
+var raceArray: Array<String> = emptyArray()
+var classArray: Array<String> = emptyArray()
+var rarityArray: Array<String> = emptyArray()
+var typeArray: Array<String> = emptyArray()
+
+
 fun initMaps(db: SQLiteDatabase) {
     raceMap = getTableMap(db, "character_races")
     classMap = getTableMap(db, "character_classes")
     rarityMap = getTableMap(db, "item_rarities")
     typeMap = getTableMap(db, "item_types")
+}
+
+fun mapsToArray() {
+    raceMap.forEach { (key, _) ->
+        raceArray += key
+    }
+    classMap.forEach { (key, _) ->
+        classArray += key
+    }
+    rarityMap.forEach { (key, _) ->
+        rarityArray += key
+    }
+    typeMap.forEach { (key, _) ->
+        typeArray += key
+    }
 }
 
 private fun getTableMap(db: SQLiteDatabase, table: String) : MutableMap<String, Int> {

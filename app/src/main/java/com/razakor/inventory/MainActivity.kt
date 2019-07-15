@@ -10,12 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.character_dialog.view.*
-import android.content.DialogInterface
 import android.database.sqlite.SQLiteDatabase
-import android.view.View
-import android.widget.Toast
-import android.widget.AdapterView.OnItemClickListener
-
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import kotlinx.android.synthetic.main.character_dialog.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         createCharacterRecyclerView(db)
 
         initMaps(db)
+        mapsToArray()
 
         characterDataInit(db, characters)
 
@@ -49,14 +48,24 @@ class MainActivity : AppCompatActivity() {
 
             val characterAlertDialog = characterDialogBuilder.show()
 
+            val spinnerRace: Spinner = characterDialog.findViewById(R.id.spinner_race)
+            val raceAA = ArrayAdapter(this, android.R.layout.simple_spinner_item, raceArray)
+            raceAA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinnerRace.adapter = raceAA
+
+            val spinnerClass: Spinner = characterDialog.findViewById(R.id.spinner_class)
+            val classAA = ArrayAdapter(this, android.R.layout.simple_spinner_item, classArray)
+            classAA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinnerClass.adapter = classAA
+
             characterDialog.btnOK.setOnClickListener {
                 characterAlertDialog.dismiss()
 
                 val character = Character()
 
                 character.name = characterDialog.edit_name.text.toString()
-                //character.race = characterDialog.edit_race.text.toString()
-                //character.clas = characterDialog.edit_class.text.toString()
+                character.race = spinnerRace.selectedItem.toString()
+                character.clas = spinnerClass.selectedItem.toString()
                 character.xp = characterDialog.edit_experience.text.toString().toInt()
 
                 characters.add(character)
@@ -68,11 +77,6 @@ class MainActivity : AppCompatActivity() {
                 characterAlertDialog.dismiss()
             }
         }
-
-
-
-
-
     }
 
     private fun createCharacterRecyclerView(db: SQLiteDatabase){
