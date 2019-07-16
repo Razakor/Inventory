@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp">
+
+    <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:layout_alignParentStart="true"
+            android:inputType="textCapSentences"
+    />
+
+    <Spinner
+            android:id="@+id/spinner_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Race"
+            android:layout_below="@+id/edit_name"
+            android:layout_alignParentStart="true"
+    />
+
+    <Spinner
+            android:id="@+id/spinner_rarity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Class"
+            android:layout_below="@+id/edit_name"
+            android:layout_alignParentEnd="true"
+    />
+
+    <EditText
+            android:id="@+id/edit_price"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:hint="Price"
+            android:layout_below="@+id/spinner_type"
+            android:layout_alignParentStart="true"
+            android:inputType="number"
+
+    />
+
+    <EditText
+            android:id="@+id/edit_count"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:hint="Count(1)"
+            android:layout_below="@+id/spinner_type"
+            android:layout_alignParentEnd="true"
+            android:inputType="number"
+
+    />
+
+    <EditText
+            android:id="@+id/edit_description"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:hint="Description"
+            android:layout_below="@+id/edit_price"
+            android:layout_alignParentStart="true"
+            android:gravity="start"
+            android:inputType="textCapSentences"
+
+    />
+
+    <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Cancel"
+            android:layout_below="@+id/edit_description"
+            android:layout_alignParentStart="true"
+    />
+
+    <Button
+            android:id="@+id/btnOK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="OK"
+            android:layout_below="@+id/edit_description"
+            android:layout_alignParentEnd="true"
+    />
+
+</RelativeLayout>
