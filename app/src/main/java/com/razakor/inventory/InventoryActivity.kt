@@ -25,8 +25,6 @@ class InventoryActivity : AppCompatActivity() {
 
         createItemRecyclerView(inventory.items)
 
-        itemsDataInit(inventory)
-
         btnAddItem.setOnClickListener {
             val itemDialog = LayoutInflater.from(this).inflate(R.layout.item_dialog, null)
             val itemDialogBuilder = AlertDialog.Builder(this)
