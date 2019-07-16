@@ -1,6 +1,7 @@
 package com.razakor.inventory
 
 class Character {
+
     var id: Int = 0
     var name: String = "Character"
     var race: String = "Race"

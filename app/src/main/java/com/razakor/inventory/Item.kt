@@ -1,7 +1,7 @@
 package com.razakor.inventory
 
 class Item(inventory: Inventory) {
-    val id = 0
+    var id = 0
     val inventoryId = inventory.id
     var name: String = "Name"
     var rarity: String = "Rarity"

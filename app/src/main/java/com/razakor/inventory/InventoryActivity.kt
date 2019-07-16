@@ -25,6 +25,8 @@ class InventoryActivity : AppCompatActivity() {
 
         createItemRecyclerView(inventory.items)
 
+        itemsDataInit(inventory)
+
         btnAddItem.setOnClickListener {
             val itemDialog = LayoutInflater.from(this).inflate(R.layout.item_dialog, null)
             val itemDialogBuilder = AlertDialog.Builder(this)
@@ -57,8 +59,8 @@ class InventoryActivity : AppCompatActivity() {
                     item.description = itemDialog.edit_description.text.toString()
 
                     inventory.addItem(item)
-                    //addCharacterToDatabase(db, character, raceMap[character.race]!!, classMap[character.clas]!!)
-                    //setCharacterIdFromDatabase(db, character, raceMap[character.race]!!, classMap[character.clas]!!)
+                    addItemToDatabase(item, rarityMap[item.rarity]!!, typeMap[item.type]!!)
+                    setItemIdFromDatabase(item, rarityMap[item.rarity]!!, typeMap[item.type]!!)
                 } else {
                     Toast.makeText(this, "Set correct name", Toast.LENGTH_LONG).show()
                 }

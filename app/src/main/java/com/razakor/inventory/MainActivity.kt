@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         mapsToArray()
 
         characterDataInit(characters)
+        inventoryDataInit(characters)
 
 
         btnAddCharacter.setOnClickListener {
@@ -60,15 +61,18 @@ class MainActivity : AppCompatActivity() {
                 val character = Character()
 
                 if (characterDialog.edit_name.text.toString() != "") {
-                    character.name = characterDialog.edit_name.text.toString()
-                    character.race = spinnerRace.selectedItem.toString()
-                    character.clas = spinnerClass.selectedItem.toString()
-                    character.xp = characterDialog.edit_experience.text.toString().toInt()
-                    character.description = characterDialog.edit_description.text.toString()
-
+                    character.apply {
+                        name = characterDialog.edit_name.text.toString()
+                        race = spinnerRace.selectedItem.toString()
+                        clas = spinnerClass.selectedItem.toString()
+                        xp = characterDialog.edit_experience.text.toString().toInt()
+                        description = characterDialog.edit_description.text.toString()
+                    }
                     characters.add(character)
                     addCharacterToDatabase(character, raceMap[character.race]!!, classMap[character.clas]!!)
                     setCharacterIdFromDatabase(character, raceMap[character.race]!!, classMap[character.clas]!!)
+                    createInventoryInDatabase(character)
+                    setInventoryIdFromDatabase(character)
                 } else {
                     Toast.makeText(this, "Set correct name", Toast.LENGTH_LONG).show()
                 }
