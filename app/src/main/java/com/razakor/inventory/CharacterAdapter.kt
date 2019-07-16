@@ -10,11 +10,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
-class CharacterAdapter(_db: SQLiteDatabase, _characters: MutableList<Character>)
+class CharacterAdapter(private val characters: MutableList<Character>)
     : RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
 
-    private val characters: MutableList<Character> = _characters
-    private val db: SQLiteDatabase = _db
     private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
@@ -30,13 +28,13 @@ class CharacterAdapter(_db: SQLiteDatabase, _characters: MutableList<Character>)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, InventoryActivity::class.java)
-            intent.putExtra("inventory_id", characters[position].inventory.id)
+            intent.putExtra("character_id", characters[position].id)
             context.startActivity(intent)
         }
 
         holder.itemView.setOnLongClickListener {
             Toast.makeText(context, "Item deleted at position $position", Toast.LENGTH_LONG).show()
-            deleteCharacterFromDatabase(db, characters[position])
+            deleteCharacterFromDatabase(characters[position])
             characters.removeAt(position)
             notifyItemRemoved(position)
             notifyDataSetChanged()

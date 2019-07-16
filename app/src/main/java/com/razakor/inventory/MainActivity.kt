@@ -14,13 +14,9 @@ import android.database.sqlite.SQLiteDatabase
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
-import kotlinx.android.synthetic.main.character_dialog.*
 
 
 class MainActivity : AppCompatActivity() {
-
-    private var characters: MutableList<Character> = mutableListOf()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,17 +24,15 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val dbHelper = DatabaseHelper(this)
-        val db = dbHelper.database
+        val database = dbHelper.database
+        initDatabase(database)
 
-        createCharacterRecyclerView(db)
+        createCharacterRecyclerView()
 
-        initMaps(db)
+        initMaps()
         mapsToArray()
 
-        characterDataInit(db, characters)
-
-
-
+        characterDataInit(characters)
 
 
         btnAddCharacter.setOnClickListener {
@@ -70,10 +64,11 @@ class MainActivity : AppCompatActivity() {
                     character.race = spinnerRace.selectedItem.toString()
                     character.clas = spinnerClass.selectedItem.toString()
                     character.xp = characterDialog.edit_experience.text.toString().toInt()
+                    character.description = characterDialog.edit_description.text.toString()
 
                     characters.add(character)
-                    addCharacterToDatabase(db, character, raceMap[character.race]!!, classMap[character.clas]!!)
-                    setCharacterIdFromDatabase(db, character, raceMap[character.race]!!, classMap[character.clas]!!)
+                    addCharacterToDatabase(character, raceMap[character.race]!!, classMap[character.clas]!!)
+                    setCharacterIdFromDatabase(character, raceMap[character.race]!!, classMap[character.clas]!!)
                 } else {
                     Toast.makeText(this, "Set correct name", Toast.LENGTH_LONG).show()
                 }
@@ -85,10 +80,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun createCharacterRecyclerView(db: SQLiteDatabase){
+    private fun createCharacterRecyclerView(){
         val characterRecyclerView: RecyclerView = findViewById(R.id.rv_character)
         val layoutManager = LinearLayoutManager(this)
-        val characterAdapter = CharacterAdapter(db, characters)
+        val characterAdapter = CharacterAdapter(characters)
         characterRecyclerView.layoutManager = layoutManager
         characterRecyclerView.adapter = characterAdapter
     }

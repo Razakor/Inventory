@@ -5,7 +5,6 @@ class Character {
     var name: String = "Character"
     var race: String = "Race"
     var clas: String = "Class"
-
     var xp: Int = 0
         set(value) {
             when {

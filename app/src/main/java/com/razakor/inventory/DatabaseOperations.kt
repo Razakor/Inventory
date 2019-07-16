@@ -1,8 +1,6 @@
 package com.razakor.inventory
 
-import android.database.sqlite.SQLiteDatabase
-
-fun characterDataInit(db: SQLiteDatabase, characterList: MutableList<Character>) {
+fun characterDataInit(characterList: MutableList<Character>) {
     val query =
         "SELECT characters.id, characters.name, character_races.name, character_classes.name, characters.experience, characters.description\n" +
                 "FROM characters\n" +
@@ -27,7 +25,7 @@ fun characterDataInit(db: SQLiteDatabase, characterList: MutableList<Character>)
     cursor.close()
 }
 
-fun addCharacterToDatabase(db: SQLiteDatabase, character: Character, race_id: Int, class_id: Int) {
+fun addCharacterToDatabase(character: Character, race_id: Int, class_id: Int) {
     val query =
         "INSERT INTO characters(name, race_id, class_id, experience, description)\n" +
                 "VALUES ('${character.name}', '$race_id', '$class_id', '${character.xp}', '${character.description}')"
@@ -35,17 +33,17 @@ fun addCharacterToDatabase(db: SQLiteDatabase, character: Character, race_id: In
     db.execSQL(query)
 }
 
-fun deleteCharacterFromDatabase(db: SQLiteDatabase, character: Character) {
+fun deleteCharacterFromDatabase(character: Character) {
     val query =
         "DELETE FROM characters\n" +
                 "WHERE characters.id = ${character.id}"
     db.execSQL(query)
 }
 
-fun setCharacterIdFromDatabase(db: SQLiteDatabase, character: Character, race_id: Int, class_id: Int) {
+fun setCharacterIdFromDatabase(character: Character, race_id: Int, class_id: Int) {
     val query =
         "SELECT characters.id FROM characters\n" +
-                "WHERE characters.name = '${character.name}' AND characters.race_id = '$race_id' AND characters.class_id = '$class_id' AND characters.experience = '${character.xp}'"
+                "WHERE characters.name = '${character.name}' AND characters.race_id = '$race_id' AND characters.class_id = '$class_id' AND characters.experience = '${character.xp}' AND characters.description = '${character.description}'"
     val cursor = db.rawQuery(query, null)
     cursor.moveToFirst()
     character.id = cursor.getInt(0)

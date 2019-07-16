@@ -2,6 +2,10 @@ package com.razakor.inventory
 
 import android.database.sqlite.SQLiteDatabase
 
+lateinit var db: SQLiteDatabase
+
+var characters: MutableList<Character> = mutableListOf()
+
 lateinit var raceMap: MutableMap<String, Int>
 lateinit var classMap: MutableMap<String, Int>
 lateinit var rarityMap: MutableMap<String, Int>
@@ -12,12 +16,15 @@ var classArray: Array<String> = emptyArray()
 var rarityArray: Array<String> = emptyArray()
 var typeArray: Array<String> = emptyArray()
 
+fun initDatabase(database: SQLiteDatabase) {
+    db = database
+}
 
-fun initMaps(db: SQLiteDatabase) {
-    raceMap = getTableMap(db, "character_races")
-    classMap = getTableMap(db, "character_classes")
-    rarityMap = getTableMap(db, "item_rarities")
-    typeMap = getTableMap(db, "item_types")
+fun initMaps() {
+    raceMap = getTableMap("character_races")
+    classMap = getTableMap("character_classes")
+    rarityMap = getTableMap("item_rarities")
+    typeMap = getTableMap("item_types")
 }
 
 fun mapsToArray() {
@@ -35,7 +42,7 @@ fun mapsToArray() {
     }
 }
 
-private fun getTableMap(db: SQLiteDatabase, table: String) : MutableMap<String, Int> {
+private fun getTableMap(table: String) : MutableMap<String, Int> {
     val map: MutableMap<String, Int> = mutableMapOf()
     var tmpId: Int
     var tmpName: String

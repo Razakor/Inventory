@@ -8,5 +8,5 @@ class Item(inventory: Inventory) {
     var type: String = "Type"
     var description: String = "Description"
     var count: Int = 1
-    var cost: Int = 0
+    var price: Int = 0
 }

@@ -1,32 +1,27 @@
 package com.razakor.inventory
 
 import android.content.Context
-import android.content.Intent
-import android.database.sqlite.SQLiteDatabase
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
-class ItemAdapter(_db: SQLiteDatabase, _characters: MutableList<Character>)
+class ItemAdapter(private val items: MutableList<Item>)
     : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
-    private val characters: MutableList<Character> = _characters
-    private val db: SQLiteDatabase = _db
     private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         context = parent.context
-        val layoutId: Int = R.layout.character_list_item
+        val layoutId: Int = R.layout.item_list_item
         val inflater: LayoutInflater = LayoutInflater.from(context)
         val view: View = inflater.inflate(layoutId, parent, false)
         return ItemViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(characters[position].name, characters[position].race, characters[position].clas, characters[position].lvl)
+        holder.bind(items[position].name, items[position].type, items[position].rarity, items[position].count)
 /*
         holder.itemView.setOnClickListener {
             val intent = Intent(context, InventoryActivity::class.java)
@@ -46,20 +41,24 @@ class ItemAdapter(_db: SQLiteDatabase, _characters: MutableList<Character>)
     }
 
     override fun getItemCount(): Int {
-        return characters.size
+        return items.size
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private var characterName: TextView = itemView.findViewById(R.id.character_name)
-        private var characterRace: TextView = itemView.findViewById(R.id.character_race)
-        private var characterClass: TextView = itemView.findViewById(R.id.character_class)
-        private var characterLvl: TextView = itemView.findViewById(R.id.character_lvl)
+        private val itemName: TextView = itemView.findViewById(R.id.item_name)
+        private val itemType: TextView = itemView.findViewById(R.id.item_type)
+        private val itemRarity: TextView = itemView.findViewById(R.id.item_rarity)
+        private val itemCount: TextView = itemView.findViewById(R.id.item_count)
 
-        fun bind(_name: String, _race: String, _class: String, _lvl: Int) {
-            characterName.text = _name
-            characterRace.text = _race
-            characterClass.text = _class
-            characterLvl.text = _lvl.toString()
+        fun bind(name: String, type: String, rarity: String, count: Int) {
+            itemName.text = name
+            itemType.text = type
+            itemRarity.text = rarity
+            if (count > 1) {
+                itemCount.text = count.toString()
+            } else {
+                itemCount.text = ""
+            }
         }
     }
 }

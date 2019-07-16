@@ -2,7 +2,7 @@ package com.razakor.inventory
 
 class Inventory(character: Character) {
     val id: Int = 0
-    val owner: Character = character
+    val characterId = character.id
     var gold: Int = 0
     var silver: Int = 0
     var copper: Int = 0
