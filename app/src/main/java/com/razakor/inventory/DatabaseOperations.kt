@@ -93,36 +93,34 @@ fun setInventoryIdFromDatabase(character: Character) {
     cursor.close()
 }
 
-fun itemsDataInit(characterList: MutableList<Character>) {
-    characterList.forEach {
-        val itemList = it.inventory.items
-        val query =
-            "SELECT items.id, items.name, item_rarities.name, item_types.name, items.price, items.description, items.count\n" +
-                    "FROM items\n" +
-                    "INNER JOIN item_rarities\n" +
-                    "ON items.rarity_id = item_rarities.id\n" +
-                    "INNER JOIN item_types\n" +
-                    "ON items.type_id = item_types.id\n" +
-                    "WHERE items.inventory_id = '${it.inventory.id}'"
+fun itemsDataInit(inventory: Inventory) {
+    val itemList = inventory.items
+    val query =
+        "SELECT items.id, items.name, item_rarities.name, item_types.name, items.price, items.description, items.count\n" +
+                "FROM items\n" +
+                "INNER JOIN item_rarities\n" +
+                "ON items.rarity_id = item_rarities.id\n" +
+                "INNER JOIN item_types\n" +
+                "ON items.type_id = item_types.id\n" +
+                "WHERE items.inventory_id = '${inventory.id}'"
 
-        val cursor = db.rawQuery(query, null)
-        cursor.moveToFirst()
-        while (!cursor.isAfterLast) {
-            val tmpItem = Item(it.inventory)
-            tmpItem.apply {
-                id = cursor.getInt(0)
-                name = cursor.getString(1)
-                rarity = cursor.getString(2)
-                type = cursor.getString(3)
-                price = cursor.getInt(4)
-                description = cursor.getString(5)
-                count = cursor.getInt(6)
-            }
-            itemList.add(tmpItem)
-            cursor.moveToNext()
+    val cursor = db.rawQuery(query, null)
+    cursor.moveToFirst()
+    while (!cursor.isAfterLast) {
+        val tmpItem = Item(inventory)
+        tmpItem.apply {
+            id = cursor.getInt(0)
+            name = cursor.getString(1)
+            rarity = cursor.getString(2)
+            type = cursor.getString(3)
+            price = cursor.getInt(4)
+            description = cursor.getString(5)
+            count = cursor.getInt(6)
         }
-        cursor.close()
+        itemList.add(tmpItem)
+        cursor.moveToNext()
     }
+    cursor.close()
 }
 
 fun addItemToDatabase(item: Item, rarity_id: Int, type_id: Int) {

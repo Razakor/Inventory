@@ -25,6 +25,11 @@ class InventoryActivity : AppCompatActivity() {
 
         createItemRecyclerView(inventory.items)
 
+        if (inventory.items.isEmpty()) {
+            itemsDataInit(inventory)
+        }
+
+
         btnAddItem.setOnClickListener {
             val itemDialog = LayoutInflater.from(this).inflate(R.layout.item_dialog, null)
             val itemDialogBuilder = AlertDialog.Builder(this)
@@ -49,13 +54,14 @@ class InventoryActivity : AppCompatActivity() {
                 val item = Item(inventory)
 
                 if (itemDialog.edit_name.text.toString() != "") {
-                    item.name = itemDialog.edit_name.text.toString()
-                    item.type = spinnerType.selectedItem.toString()
-                    item.rarity = spinnerRarity.selectedItem.toString()
-                    item.price = itemDialog.edit_price.text.toString().toInt()
-                    item.count = itemDialog.edit_count.text.toString().toInt()
-                    item.description = itemDialog.edit_description.text.toString()
-
+                    item.apply {
+                        name = itemDialog.edit_name.text.toString()
+                        type = spinnerType.selectedItem.toString()
+                        rarity = spinnerRarity.selectedItem.toString()
+                        price = itemDialog.edit_price.text.toString().toInt()
+                        count = itemDialog.edit_count.text.toString().toInt()
+                        description = itemDialog.edit_description.text.toString()
+                    }
                     inventory.addItem(item)
                     addItemToDatabase(item, rarityMap[item.rarity]!!, typeMap[item.type]!!)
                     setItemIdFromDatabase(item, rarityMap[item.rarity]!!, typeMap[item.type]!!)

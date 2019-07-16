@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
 
         characterDataInit(characters)
         inventoryDataInit(characters)
-        itemsDataInit(characters)
 
 
         btnAddCharacter.setOnClickListener {
