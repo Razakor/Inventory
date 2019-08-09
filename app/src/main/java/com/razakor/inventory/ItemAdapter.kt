@@ -1,6 +1,7 @@
 package com.razakor.inventory
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,13 +23,14 @@ class ItemAdapter(private val items: MutableList<Item>)
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.bind(items[position].name, items[position].type, items[position].rarity, items[position].count)
-/*
+
         holder.itemView.setOnClickListener {
-            val intent = Intent(context, InventoryActivity::class.java)
-            intent.putExtra("inventory_id", characters[position].inventory.id)
+            val intent = Intent(context, ItemsActivity::class.java)
+            intent.putExtra("inventory_id", items[position].inventoryId)
+            intent.putExtra("item_id", items[position].id)
             context.startActivity(intent)
         }
-
+/*
         holder.itemView.setOnLongClickListener {
             Toast.makeText(context, "Item deleted at position $position", Toast.LENGTH_LONG).show()
             deleteCharacterFromDatabase(db, characters[position])

@@ -38,6 +38,8 @@ fun deleteCharacterFromDatabase(character: Character) {
         "DELETE FROM characters\n" +
                 "WHERE characters.id = ${character.id}"
     db.execSQL(query)
+    deleteInventoryFromDatabase(character)
+    deleteInventoryItemsFromDatabase(character)
 }
 
 fun setCharacterIdFromDatabase(character: Character, race_id: Int, class_id: Int) {
@@ -91,6 +93,13 @@ fun setInventoryIdFromDatabase(character: Character) {
     cursor.moveToFirst()
     character.inventory.id = cursor.getInt(0)
     cursor.close()
+}
+
+fun deleteInventoryFromDatabase(character: Character) {
+    val query =
+        "DELETE FROM inventories\n" +
+                "WHERE inventories.character_id = ${character.id}"
+    db.execSQL(query)
 }
 
 fun itemsDataInit(inventory: Inventory) {
@@ -150,4 +159,11 @@ fun setItemIdFromDatabase(item: Item, rarity_id: Int, type_id: Int) {
     cursor.moveToFirst()
     item.id = cursor.getInt(0)
     cursor.close()
+}
+
+fun deleteInventoryItemsFromDatabase(character: Character) {
+    val query =
+        "DELETE FROM items\n" +
+                "WHERE items.inventory_id = ${character.inventory.id}"
+    db.execSQL(query)
 }

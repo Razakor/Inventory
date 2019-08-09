@@ -28,6 +28,13 @@
                   <meta-data android:name="android.support.PARENT_ACTIVITY"
                              android:value=".MainActivity"/>
         </activity>
+
+        <activity android:name=".ItemsActivity"
+                  android:label="Items"
+                  android:launchMode="singleTop">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value=".InventoryActivity"/>
+        </activity>
     </application>
 
 </manifest>
