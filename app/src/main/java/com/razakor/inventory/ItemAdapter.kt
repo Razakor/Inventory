@@ -29,6 +29,7 @@ class ItemAdapter(private val items: MutableList<Item>)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, ItemsActivity::class.java)
+            intent.putExtra("position", position)
             intent.putExtra("inventory_id", items[position].inventoryId)
             intent.putExtra("item_id", items[position].id)
             context.startActivity(intent)

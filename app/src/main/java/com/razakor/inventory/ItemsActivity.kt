@@ -14,6 +14,7 @@ class ItemsActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_item)
 
+        val position = intent.getIntExtra("position", -1)
         val inventoryId = intent.getIntExtra("inventory_id", 0)
 
         val items = characters.filter { it.inventory.id == inventoryId }[0].inventory.items
@@ -21,5 +22,6 @@ class ItemsActivity : AppCompatActivity() {
         viewPager = findViewById(R.id.viewPager)
         pagerAdapter = ItemsPagerAdapter(supportFragmentManager, items)
         viewPager.adapter = pagerAdapter
+        viewPager.setCurrentItem(position, false)
     }
 }
