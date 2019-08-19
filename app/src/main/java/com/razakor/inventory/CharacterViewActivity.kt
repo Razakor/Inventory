@@ -2,14 +2,19 @@ package com.razakor.inventory
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
@@ -18,7 +23,9 @@ import kotlinx.android.synthetic.main.item_dialog.view.*
 
 class CharacterViewActivity : AppCompatActivity() {
 
-    @SuppressLint("SetTextI18n")
+    private lateinit var deleteIcon: Drawable
+    private var swipeBackground: ColorDrawable = ColorDrawable(Color.RED)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,40 +35,14 @@ class CharacterViewActivity : AppCompatActivity() {
         val character = characters.filter { it.id == characterId }[0]
         val inventory = character.inventory
 
-        val navigationView = this.findViewById<NavigationView>(R.id.nav_view).getHeaderView(0)
 
-        val characterName = navigationView.findViewById<TextView>(R.id.nav_name)
-        val characterLvl = navigationView.findViewById<TextView>(R.id.nav_lvl)
-        val characterRace = navigationView.findViewById<TextView>(R.id.nav_race)
-        val characterClass = navigationView.findViewById<TextView>(R.id.nav_class)
-        val characterXp = navigationView.findViewById<TextView>(R.id.nav_xp)
-        val characterGold = navigationView.findViewById<TextView>(R.id.money_gold)
-        val characterSilver = navigationView.findViewById<TextView>(R.id.money_silver)
-        val characterCopper = navigationView.findViewById<TextView>(R.id.money_copper)
-        val characterPlatinum = navigationView.findViewById<TextView>(R.id.money_platinum)
-        val characterElectrum = navigationView.findViewById<TextView>(R.id.money_electrum)
-        val characterDescription = navigationView.findViewById<TextView>(R.id.nav_description)
-
-        with(character) {
-            characterName.text = name
-            characterLvl.text = lvl.toString()
-            characterRace.text = race
-            characterClass.text = clas
-            characterXp.text = "Xp: $xp"
-            characterGold.text = "Gold: ${inventory.gold}"
-            characterSilver.text = "Silver: ${inventory.silver}"
-            characterCopper.text = "Copper: ${inventory.copper}"
-            characterPlatinum.text = "Platinum: ${inventory.platinum}"
-            characterElectrum.text = "Electrum: ${inventory.electrum}"
-            characterDescription.text = description
-        }
+        createNavigationView(character)
 
         createItemRecyclerView(inventory.items)
 
         if (inventory.items.isEmpty()) {
             itemsDataInit(inventory)
         }
-
 
         btnAddItem.setOnClickListener {
             val itemDialog = LayoutInflater.from(this).inflate(R.layout.item_dialog, null)
@@ -110,11 +91,93 @@ class CharacterViewActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun createNavigationView(character: Character) {
+        val navigationView = this.findViewById<NavigationView>(R.id.nav_view).getHeaderView(0)
+
+        val characterName = navigationView.findViewById<TextView>(R.id.nav_name)
+        val characterLvl = navigationView.findViewById<TextView>(R.id.nav_lvl)
+        val characterRace = navigationView.findViewById<TextView>(R.id.nav_race)
+        val characterClass = navigationView.findViewById<TextView>(R.id.nav_class)
+        val characterXp = navigationView.findViewById<TextView>(R.id.nav_xp)
+        val characterGold = navigationView.findViewById<TextView>(R.id.money_gold)
+        val characterSilver = navigationView.findViewById<TextView>(R.id.money_silver)
+        val characterCopper = navigationView.findViewById<TextView>(R.id.money_copper)
+        val characterPlatinum = navigationView.findViewById<TextView>(R.id.money_platinum)
+        val characterElectrum = navigationView.findViewById<TextView>(R.id.money_electrum)
+        val characterDescription = navigationView.findViewById<TextView>(R.id.nav_description)
+
+        with(character) {
+            characterName.text = name
+            characterLvl.text = lvl.toString()
+            characterRace.text = race
+            characterClass.text = clas
+            characterXp.text = "Xp: $xp"
+            characterGold.text = "Gold: ${inventory.gold}"
+            characterSilver.text = "Silver: ${inventory.silver}"
+            characterCopper.text = "Copper: ${inventory.copper}"
+            characterPlatinum.text = "Platinum: ${inventory.platinum}"
+            characterElectrum.text = "Electrum: ${inventory.electrum}"
+            characterDescription.text = description
+        }
+    }
+
     private fun createItemRecyclerView(items: MutableList<Item>){
         val itemRecyclerView: RecyclerView = findViewById(R.id.rv_item)
         val layoutManager = LinearLayoutManager(this)
         val itemAdapter = ItemAdapter(items)
         itemRecyclerView.layoutManager = layoutManager
         itemRecyclerView.adapter = itemAdapter
+        deleteIcon = ContextCompat.getDrawable(this, R.drawable.ic_delete_white_40)!!
+
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                itemAdapter.removeItem(viewHolder)
+            }
+
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+                val itemView = viewHolder.itemView
+                val iconMargin = (itemView.height - deleteIcon.intrinsicHeight) / 2
+
+                swipeBackground.setBounds(
+                    itemView.right + dX.toInt(),
+                    itemView.top,
+                    itemView.right,
+                    itemView.bottom)
+
+                deleteIcon.setBounds(
+                    itemView.right - iconMargin - deleteIcon.intrinsicWidth,
+                    itemView.top + iconMargin,
+                    itemView.right - iconMargin,
+                    itemView.bottom - iconMargin)
+
+                swipeBackground.draw(c)
+
+                c.save()
+                c.clipRect(itemView.right + dX.toInt(),
+                    itemView.top,
+                    itemView.right,
+                    itemView.bottom)
+                deleteIcon.draw(c)
+                c.restore()
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(itemRecyclerView)
     }
 }

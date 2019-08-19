@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 
 class ItemAdapter(private val items: MutableList<Item>)
     : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
     private lateinit var context: Context
+    private lateinit var removedItem: Item
+    private var removedPosition: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         context = parent.context
@@ -44,6 +47,19 @@ class ItemAdapter(private val items: MutableList<Item>)
 
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    fun removeItem(viewHolder: RecyclerView.ViewHolder) {
+        removedPosition = viewHolder.adapterPosition
+        removedItem = items[removedPosition]
+
+        items.removeAt(viewHolder.adapterPosition)
+        notifyItemRemoved(viewHolder.adapterPosition)
+
+        Snackbar.make(viewHolder.itemView, "${removedItem.name} deleted.", Snackbar.LENGTH_LONG).setAction("UNDO") {
+            items.add(removedPosition, removedItem)
+            notifyItemInserted(removedPosition)
+        }.show()
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
