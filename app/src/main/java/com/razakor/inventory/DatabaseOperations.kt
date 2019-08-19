@@ -145,6 +145,28 @@ fun addItemToDatabase(item: Item, rarity_id: Int, type_id: Int) {
     db.execSQL(query)
 }
 
+fun insertItemToDatabase(item: Item, rarity_id: Int, type_id: Int) {
+    val query =
+        "INSERT INTO items(id, inventory_id, name, rarity_id, type_id, price, description, count)\n" +
+                "VALUES ('" +
+                "${item.id}', '" +
+                "${item.inventoryId}', '" +
+                "${item.name}', '" +
+                "$rarity_id', '" +
+                "$type_id', '" +
+                "${item.price}', '" +
+                "${item.description}', '" +
+                "${item.count}')"
+    db.execSQL(query)
+}
+
+fun deleteItemFromDatabase(itemId: Int) {
+    val query =
+        "DELETE FROM items\n" +
+                "WHERE items.id = '$itemId'"
+    db.execSQL(query)
+}
+
 fun setItemIdFromDatabase(item: Item, rarity_id: Int, type_id: Int) {
     val query =
         "SELECT items.id FROM items\n" +

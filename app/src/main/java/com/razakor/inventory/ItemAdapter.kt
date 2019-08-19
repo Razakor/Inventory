@@ -55,10 +55,12 @@ class ItemAdapter(private val items: MutableList<Item>)
 
         items.removeAt(viewHolder.adapterPosition)
         notifyItemRemoved(viewHolder.adapterPosition)
+        deleteItemFromDatabase(removedItem.id)
 
         Snackbar.make(viewHolder.itemView, "${removedItem.name} deleted.", Snackbar.LENGTH_LONG).setAction("UNDO") {
             items.add(removedPosition, removedItem)
             notifyItemInserted(removedPosition)
+            insertItemToDatabase(removedItem, rarityMap[removedItem.rarity]!!, typeMap[removedItem.type]!!)
         }.show()
     }
 
