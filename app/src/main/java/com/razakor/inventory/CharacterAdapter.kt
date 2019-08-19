@@ -2,7 +2,6 @@ package com.razakor.inventory
 
 import android.content.Context
 import android.content.Intent
-import android.database.sqlite.SQLiteDatabase
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +26,7 @@ class CharacterAdapter(private val characters: MutableList<Character>)
         holder.bind(characters[position].name, characters[position].race, characters[position].clas, characters[position].lvl)
 
         holder.itemView.setOnClickListener {
-            val intent = Intent(context, InventoryActivity::class.java)
+            val intent = Intent(context, CharacterViewActivity::class.java)
             intent.putExtra("character_id", characters[position].id)
             context.startActivity(intent)
         }

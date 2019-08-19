@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".InventoryActivity"
+        <activity android:name=".CharacterViewActivity"
                   android:label="Inventory"
                   android:launchMode="singleTop">
                   <meta-data android:name="android.support.PARENT_ACTIVITY"
@@ -33,7 +33,7 @@
                   android:label="Items"
                   android:launchMode="singleTop">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value=".InventoryActivity"/>
+                       android:value=".CharacterViewActivity"/>
         </activity>
     </application>
 

@@ -1,5 +1,6 @@
 package com.razakor.inventory
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ class ItemDetailsFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_item_details, container, false)
@@ -41,8 +43,8 @@ class ItemDetailsFragment : Fragment() {
         nameTextView.text = args?.getString("name")
         typeTextView.text = args?.getString("type")
         rarityTextView.text = args?.getString("rarity")
-        priceTextView.text = args?.getInt("price").toString()
-        countTextView.text = args?.getInt("count").toString()
+        priceTextView.text = "Price: ${args?.getInt("price")}"
+        countTextView.text = "Count: ${args?.getInt("count")}"
         descriptionTextView.text = args?.getString("description")
 
         return view

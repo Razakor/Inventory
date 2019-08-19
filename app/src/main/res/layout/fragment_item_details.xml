@@ -20,7 +20,7 @@
             android:layout_below="@+id/item_details_name"
             android:layout_alignParentStart="true"
             android:padding="10dp"
-            android:textSize="40sp"
+            android:textSize="30sp"
             android:text="Type"
     />
 
@@ -31,7 +31,7 @@
             android:layout_below="@+id/item_details_name"
             android:layout_alignParentEnd="true"
             android:padding="10dp"
-            android:textSize="40sp"
+            android:textSize="30sp"
             android:text="Rarity"
     />
 
@@ -45,7 +45,7 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:paddingBottom="10dp"
-            android:textSize="40sp"
+            android:textSize="30sp"
             android:text="Price"
     />
 
@@ -59,7 +59,7 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:paddingBottom="10dp"
-            android:textSize="40sp"
+            android:textSize="30sp"
             android:text="Count"
     />
 
@@ -74,7 +74,6 @@
             android:paddingBottom="10dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
             android:textSize="25sp"
             android:text="Description"
     />

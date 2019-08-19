@@ -21,12 +21,5 @@ class ItemsActivity : AppCompatActivity() {
         viewPager = findViewById(R.id.viewPager)
         pagerAdapter = ItemsPagerAdapter(supportFragmentManager, items)
         viewPager.adapter = pagerAdapter
-
-
-
-
-
-
     }
-
 }

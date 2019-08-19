@@ -1,27 +1,60 @@
 package com.razakor.inventory
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_inventory.*
 import kotlinx.android.synthetic.main.item_dialog.view.*
 
-class InventoryActivity : AppCompatActivity() {
+class CharacterViewActivity : AppCompatActivity() {
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_inventory)
+        setContentView(R.layout.character_view)
 
         val characterId = intent.getIntExtra("character_id", 0)
         val character = characters.filter { it.id == characterId }[0]
         val inventory = character.inventory
+
+        val navigationView = this.findViewById<NavigationView>(R.id.nav_view).getHeaderView(0)
+
+        val characterName = navigationView.findViewById<TextView>(R.id.nav_name)
+        val characterLvl = navigationView.findViewById<TextView>(R.id.nav_lvl)
+        val characterRace = navigationView.findViewById<TextView>(R.id.nav_race)
+        val characterClass = navigationView.findViewById<TextView>(R.id.nav_class)
+        val characterXp = navigationView.findViewById<TextView>(R.id.nav_xp)
+        val characterGold = navigationView.findViewById<TextView>(R.id.money_gold)
+        val characterSilver = navigationView.findViewById<TextView>(R.id.money_silver)
+        val characterCopper = navigationView.findViewById<TextView>(R.id.money_copper)
+        val characterPlatinum = navigationView.findViewById<TextView>(R.id.money_platinum)
+        val characterElectrum = navigationView.findViewById<TextView>(R.id.money_electrum)
+        val characterDescription = navigationView.findViewById<TextView>(R.id.nav_description)
+
+        with(character) {
+            characterName.text = name
+            characterLvl.text = lvl.toString()
+            characterRace.text = race
+            characterClass.text = clas
+            characterXp.text = "Xp: $xp"
+            characterGold.text = "Gold: ${inventory.gold}"
+            characterSilver.text = "Silver: ${inventory.silver}"
+            characterCopper.text = "Copper: ${inventory.copper}"
+            characterPlatinum.text = "Platinum: ${inventory.platinum}"
+            characterElectrum.text = "Electrum: ${inventory.electrum}"
+            characterDescription.text = description
+        }
 
         createItemRecyclerView(inventory.items)
 
@@ -84,5 +117,4 @@ class InventoryActivity : AppCompatActivity() {
         itemRecyclerView.layoutManager = layoutManager
         itemRecyclerView.adapter = itemAdapter
     }
-
 }
