@@ -160,6 +160,14 @@ fun insertItemToDatabase(item: Item, rarity_id: Int, type_id: Int) {
     db.execSQL(query)
 }
 
+fun itemCountChange(itemId: Int, operation: String) {
+    val query =
+        "UPDATE items\n" +
+                "SET count = count $operation\n" +
+                "WHERE items.id = '$itemId'"
+    db.execSQL(query)
+}
+
 fun deleteItemFromDatabase(itemId: Int) {
     val query =
         "DELETE FROM items\n" +

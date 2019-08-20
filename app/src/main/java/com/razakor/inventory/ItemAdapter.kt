@@ -53,15 +53,32 @@ class ItemAdapter(private val items: MutableList<Item>)
     fun removeItem(viewHolder: RecyclerView.ViewHolder) {
         removedPosition = viewHolder.adapterPosition
         removedItem = items[removedPosition]
+        val count = removedItem.count
 
-        items.removeAt(viewHolder.adapterPosition)
-        notifyItemRemoved(viewHolder.adapterPosition)
-        deleteItemFromDatabase(removedItem.id)
+        if (count <= 1) {
+            items.removeAt(viewHolder.adapterPosition)
+            notifyItemRemoved(viewHolder.adapterPosition)
+            deleteItemFromDatabase(removedItem.id)
+        } else {
+            removedItem.count--
+            notifyDataSetChanged()
+            itemCountChange(removedItem.id, "- 1")
+        }
 
         Snackbar.make(viewHolder.itemView, "${removedItem.name} deleted.", Snackbar.LENGTH_LONG).setAction("UNDO") {
-            items.add(removedPosition, removedItem)
-            notifyItemInserted(removedPosition)
-            insertItemToDatabase(removedItem, rarityMap[removedItem.rarity]!!, typeMap[removedItem.type]!!)
+            if(count <= 1) {
+                items.add(removedPosition, removedItem)
+                notifyItemInserted(removedPosition)
+                insertItemToDatabase(
+                    removedItem,
+                    rarityMap[removedItem.rarity]!!,
+                    typeMap[removedItem.type]!!
+                )
+            } else {
+                removedItem.count++
+                notifyDataSetChanged()
+                itemCountChange(removedItem.id, "+ 1")
+            }
         }.show()
     }
 

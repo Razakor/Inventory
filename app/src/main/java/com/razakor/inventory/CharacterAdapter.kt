@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 
 class CharacterAdapter(private val characters: MutableList<Character>)
@@ -32,11 +33,23 @@ class CharacterAdapter(private val characters: MutableList<Character>)
         }
 
         holder.itemView.setOnLongClickListener {
-            Toast.makeText(context, "Item deleted at position $position", Toast.LENGTH_LONG).show()
-            deleteCharacterFromDatabase(characters[position])
-            characters.removeAt(position)
-            notifyItemRemoved(position)
-            notifyDataSetChanged()
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage("Delete ${characters[position].name}?")
+
+            builder.setPositiveButton(android.R.string.yes) { _, _ ->
+                Toast.makeText(context, "Item deleted at position $position", Toast.LENGTH_LONG).show()
+                deleteCharacterFromDatabase(characters[position])
+                characters.removeAt(position)
+                notifyItemRemoved(position)
+                notifyDataSetChanged()
+            }
+
+            builder.setNegativeButton(android.R.string.no) { _, _ ->
+
+            }
+
+            builder.show()
+
             return@setOnLongClickListener true
         }
     }
