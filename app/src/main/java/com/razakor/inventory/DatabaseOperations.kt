@@ -33,6 +33,22 @@ fun addCharacterToDatabase(character: Character, race_id: Int, class_id: Int) {
     db.execSQL(query)
 }
 
+fun editXpInDatabase(characterId: Int, characterXp: Int) {
+    val query =
+        "UPDATE characters\n" +
+                "SET experience = '$characterXp'\n" +
+                "WHERE characters.id = '$characterId'"
+    db.execSQL(query)
+}
+
+fun editDescriptionInDatabase(characterId: Int, characterDescription: String) {
+    val query =
+        "UPDATE characters\n" +
+                "SET description = '$characterDescription'\n" +
+                "WHERE characters.id = '$characterId'"
+    db.execSQL(query)
+}
+
 fun deleteCharacterFromDatabase(character: Character) {
     val query =
         "DELETE FROM characters\n" +
@@ -93,6 +109,21 @@ fun setInventoryIdFromDatabase(character: Character) {
     cursor.moveToFirst()
     character.inventory.id = cursor.getInt(0)
     cursor.close()
+}
+
+fun editMoneyInDatabase(inventory: Inventory) {
+    with(inventory) {
+        val query =
+            "UPDATE inventories\n" +
+                    "SET " +
+                    "gold = '$gold', " +
+                    "silver = '$silver', " +
+                    "copper = '$copper', " +
+                    "platinum = '$platinum', " +
+                    "electrum = '$electrum'\n" +
+                    "WHERE inventories.id = '$id'"
+        db.execSQL(query)
+    }
 }
 
 fun deleteInventoryFromDatabase(character: Character) {

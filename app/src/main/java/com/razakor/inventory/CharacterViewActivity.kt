@@ -7,11 +7,10 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.Layout
 import android.view.LayoutInflater
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -19,6 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_inventory.*
+import kotlinx.android.synthetic.main.edit_xp.*
+import kotlinx.android.synthetic.main.edit_xp.view.*
+import kotlinx.android.synthetic.main.edit_xp.view.edit_xp
 import kotlinx.android.synthetic.main.item_dialog.view.*
 
 class CharacterViewActivity : AppCompatActivity() {
@@ -107,6 +109,8 @@ class CharacterViewActivity : AppCompatActivity() {
         val characterElectrum = navigationView.findViewById<TextView>(R.id.money_electrum)
         val characterDescription = navigationView.findViewById<TextView>(R.id.nav_description)
 
+        val money = navigationView.findViewById<LinearLayout>(R.id.money)
+
         with(character) {
             characterName.text = name
             characterLvl.text = lvl.toString()
@@ -120,6 +124,109 @@ class CharacterViewActivity : AppCompatActivity() {
             characterElectrum.text = "Electrum: ${inventory.electrum}"
             characterDescription.text = description
         }
+
+        characterXp.setOnClickListener {
+            val xpDialog = LayoutInflater.from(this).inflate(R.layout.edit_xp, null)
+            val xpDialogBuilder = AlertDialog.Builder(this)
+                .setView(xpDialog)
+                .setTitle("Edit XP")
+
+            val editXp = xpDialog.findViewById<EditText>(R.id.edit_xp)
+
+            val xpAlertDialog = xpDialogBuilder.show()
+
+            editXp.setText(character.xp.toString())
+            editXp.isSelected = true
+
+            xpDialog.button_ok.setOnClickListener {
+                xpAlertDialog.dismiss()
+                character.xp = editXp.text.toString().toInt()
+                characterXp.text = "Xp: ${character.xp}"
+                characterLvl.text = character.lvl.toString()
+                editXpInDatabase(character.id, character.xp)
+            }
+
+            xpDialog.button_cancel.setOnClickListener {
+                xpAlertDialog.dismiss()
+            }
+        }
+
+        characterDescription.setOnClickListener {
+            val descriptionDialog = LayoutInflater.from(this).inflate(R.layout.edit_description, null)
+            val descriptionDialogBuilder = AlertDialog.Builder(this)
+                .setView(descriptionDialog)
+                .setTitle("Edit Description")
+
+            val editDescription = descriptionDialog.findViewById<EditText>(R.id.edit_character_description)
+
+            val descriptionAlertDialog = descriptionDialogBuilder.show()
+
+            editDescription.setText(character.description)
+            editDescription.isSelected = true
+
+            descriptionDialog.button_ok.setOnClickListener {
+                descriptionAlertDialog.dismiss()
+                character.description = editDescription.text.toString()
+                characterDescription.text = character.description
+                editDescriptionInDatabase(character.id, character.description)
+            }
+
+            descriptionDialog.button_cancel.setOnClickListener {
+                descriptionAlertDialog.dismiss()
+            }
+        }
+
+
+        money.setOnClickListener {
+            val moneyDialog = LayoutInflater.from(this).inflate(R.layout.edit_money, null)
+            val moneyDialogBuilder = AlertDialog.Builder(this)
+                .setView(moneyDialog)
+                .setTitle("Edit Description")
+
+            val editGold = moneyDialog.findViewById<EditText>(R.id.edit_money_gold)
+            val editSilver = moneyDialog.findViewById<EditText>(R.id.edit_money_silver)
+            val editCopper = moneyDialog.findViewById<EditText>(R.id.edit_money_copper)
+            val editPlatinum = moneyDialog.findViewById<EditText>(R.id.edit_money_platinum)
+            val editElectrum = moneyDialog.findViewById<EditText>(R.id.edit_money_electrum)
+
+            with(character.inventory) {
+                editGold.setText(gold.toString())
+                editSilver.setText(silver.toString())
+                editCopper.setText(copper.toString())
+                editPlatinum.setText(platinum.toString())
+                editElectrum.setText(electrum.toString())
+            }
+
+            val moneyAlertDialog = moneyDialogBuilder.show()
+
+            moneyDialog.button_ok.setOnClickListener {
+                moneyAlertDialog.dismiss()
+
+                with(character.inventory) {
+                    gold = editGold.text.toString().toInt()
+                    silver = editSilver.text.toString().toInt()
+                    copper = editCopper.text.toString().toInt()
+                    platinum = editPlatinum.text.toString().toInt()
+                    electrum = editElectrum.text.toString().toInt()
+
+                    characterGold.text = "Gold: $gold"
+                    characterSilver.text = "Silver: $silver"
+                    characterCopper.text = "Copper: $copper"
+                    characterPlatinum.text = "Platinum: $platinum"
+                    characterElectrum.text = "Electrum: $electrum"
+                }
+                editMoneyInDatabase(character.inventory)
+            }
+
+            moneyDialog.button_cancel.setOnClickListener {
+                moneyAlertDialog.dismiss()
+            }
+
+
+        }
+
+
+
     }
 
     private fun createItemRecyclerView(items: MutableList<Item>){

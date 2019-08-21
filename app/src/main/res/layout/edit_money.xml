@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/edit_gold"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Gold:"
+            android:textSize="18sp"
+            />
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/edit_silver"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_gold"
+            android:padding="20dp"
+            android:text="Silver:"
+            android:textSize="18sp"
+            />
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/edit_copper"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_silver"
+            android:padding="20dp"
+            android:text="Copper:"
+            android:textSize="18sp"
+            />
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/edit_platinum"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_copper"
+            android:padding="20dp"
+            android:text="Platinum:"
+            android:textSize="18sp"
+            />
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/edit_electrum"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_platinum"
+            android:padding="20dp"
+            android:text="Electrum:"
+            android:textSize="18sp"
+            />
+    <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edit_money_gold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/edit_gold"
+            android:padding="20dp"
+            android:inputType="number"
+            />
+
+    <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edit_money_silver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_money_gold"
+            android:layout_toEndOf="@+id/edit_silver"
+            android:padding="20dp"
+            android:inputType="number"
+            />
+
+    <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edit_money_copper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_money_silver"
+            android:layout_toEndOf="@+id/edit_copper"
+            android:padding="20dp"
+            android:inputType="number"
+            />
+
+    <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edit_money_platinum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_money_copper"
+            android:layout_toEndOf="@+id/edit_platinum"
+            android:padding="20dp"
+            android:inputType="number"
+            />
+
+    <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edit_money_electrum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_money_platinum"
+            android:layout_toEndOf="@+id/edit_electrum"
+            android:padding="20dp"
+            android:inputType="number"
+            />
+
+    <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_money_electrum"
+            android:layout_alignParentEnd="true"
+            android:padding="20dp"
+            android:hint="OK"
+            />
+
+    <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_money_electrum"
+            android:layout_alignParentStart="true"
+            android:padding="20dp"
+            android:hint="Cancel"
+            />
+
+</RelativeLayout>
