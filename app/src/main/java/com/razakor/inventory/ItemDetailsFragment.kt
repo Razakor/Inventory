@@ -13,12 +13,8 @@ class ItemDetailsFragment : Fragment() {
     companion object {
         fun newInstance(item: Item): ItemDetailsFragment {
             val args = Bundle()
-            args.putString("name", item.name)
-            args.putString("type", item.type)
-            args.putString("rarity", item.rarity)
-            args.putInt("price", item.price)
-            args.putInt("count", item.count)
-            args.putString("description", item.description)
+            args.putInt("id", item.id)
+            args.putInt("inventoryId", item.inventoryId)
 
             val fragment = ItemDetailsFragment()
             fragment.arguments = args
@@ -40,13 +36,19 @@ class ItemDetailsFragment : Fragment() {
 
         val args = arguments
 
-        nameTextView.text = args?.getString("name")
-        typeTextView.text = args?.getString("type")
-        rarityTextView.text = args?.getString("rarity")
-        priceTextView.text = "Price: ${args?.getInt("price")}"
-        countTextView.text = "Count: ${args?.getInt("count")}"
-        descriptionTextView.text = args?.getString("description")
+        val inventoryId = args?.getInt("inventoryId")
+        val itemId = args?.getInt("id")
+        val inventory = characters.filter { it.inventory.id == inventoryId }[0].inventory
+        val item = inventory.items.filter { it.id == itemId }[0]
 
+        with(item) {
+            nameTextView.text = name
+            typeTextView.text = type
+            rarityTextView.text = rarity
+            priceTextView.text = "Price: $price"
+            countTextView.text = "Count: $count"
+            descriptionTextView.text = description
+        }
         return view
     }
 }

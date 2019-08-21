@@ -27,6 +27,7 @@ class CharacterViewActivity : AppCompatActivity() {
 
     private lateinit var deleteIcon: Drawable
     private var swipeBackground: ColorDrawable = ColorDrawable(Color.RED)
+    private lateinit var itemAdapter: ItemAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -221,18 +222,18 @@ class CharacterViewActivity : AppCompatActivity() {
             moneyDialog.button_cancel.setOnClickListener {
                 moneyAlertDialog.dismiss()
             }
-
-
         }
+    }
 
-
-
+    override fun onResume() {
+        super.onResume()
+        itemAdapter.notifyDataSetChanged()
     }
 
     private fun createItemRecyclerView(items: MutableList<Item>){
         val itemRecyclerView: RecyclerView = findViewById(R.id.rv_item)
         val layoutManager = LinearLayoutManager(this)
-        val itemAdapter = ItemAdapter(items)
+        itemAdapter = ItemAdapter(items)
         itemRecyclerView.layoutManager = layoutManager
         itemRecyclerView.adapter = itemAdapter
         deleteIcon = ContextCompat.getDrawable(this, R.drawable.ic_delete_white_40)!!
