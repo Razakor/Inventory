@@ -1,13 +1,18 @@
 package com.razakor.inventory
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.item_dialog.view.*
 
 class ItemAdapter(private val items: MutableList<Item>)
     : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
@@ -34,16 +39,13 @@ class ItemAdapter(private val items: MutableList<Item>)
             intent.putExtra("item_id", items[position].id)
             context.startActivity(intent)
         }
-/*
+
         holder.itemView.setOnLongClickListener {
-            Toast.makeText(context, "Item deleted at position $position", Toast.LENGTH_LONG).show()
-            deleteCharacterFromDatabase(db, characters[position])
-            characters.removeAt(position)
-            notifyItemRemoved(position)
+            editItem(items[position])
             notifyDataSetChanged()
             return@setOnLongClickListener true
         }
-        */
+
     }
 
     override fun getItemCount(): Int {
@@ -81,6 +83,62 @@ class ItemAdapter(private val items: MutableList<Item>)
             }
         }.show()
     }
+
+    private fun editItem(item: Item) {
+        val itemDialog = LayoutInflater.from(context).inflate(R.layout.item_dialog, null)
+        val itemDialogBuilder = AlertDialog.Builder(context)
+            .setView(itemDialog)
+            .setTitle("Edit Item")
+
+        val itemAlertDialog = itemDialogBuilder.show()
+
+
+
+        val spinnerType: Spinner = itemDialog.findViewById(R.id.spinner_type)
+        val typeAA = ArrayAdapter(context, android.R.layout.simple_spinner_item, typeArray)
+        typeAA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerType.adapter = typeAA
+
+        val spinnerRarity: Spinner = itemDialog.findViewById(R.id.spinner_rarity)
+        val rarityAA = ArrayAdapter(context, android.R.layout.simple_spinner_item, rarityArray)
+        rarityAA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerRarity.adapter = rarityAA
+
+        with(item) {
+            itemDialog.edit_name.setText(name)
+            spinnerType.setSelection(typeMap[type]!! - 1)
+            spinnerRarity.setSelection(rarityMap[rarity]!! - 1)
+            itemDialog.edit_price.setText(price.toString())
+            itemDialog.edit_count.setText(count.toString())
+            itemDialog.edit_description.setText(description)
+        }
+
+        itemDialog.btnOK.setOnClickListener {
+            itemAlertDialog.dismiss()
+            notifyDataSetChanged()
+
+            if (itemDialog.edit_name.text.toString() != "") {
+                item.apply {
+                    name = itemDialog.edit_name.text.toString()
+                    type = spinnerType.selectedItem.toString()
+                    rarity = spinnerRarity.selectedItem.toString()
+                    price = itemDialog.edit_price.text.toString().toInt()
+                    count = itemDialog.edit_count.text.toString().toInt()
+                    description = itemDialog.edit_description.text.toString()
+                }
+                editItemInDatabase(item, rarityMap[item.rarity]!!, typeMap[item.type]!!)
+            } else {
+                Toast.makeText(context, "Set correct name", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        itemDialog.btnCancel.setOnClickListener {
+            itemAlertDialog.dismiss()
+        }
+    }
+
+
+
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val itemName: TextView = itemView.findViewById(R.id.item_name)
