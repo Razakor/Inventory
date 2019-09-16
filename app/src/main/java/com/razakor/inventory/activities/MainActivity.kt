@@ -1,4 +1,4 @@
-package com.razakor.inventory
+package com.razakor.inventory.activities
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -10,10 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.character_dialog.view.*
-import android.database.sqlite.SQLiteDatabase
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import com.razakor.inventory.adapters.CharacterAdapter
+import com.razakor.inventory.database.*
+import com.razakor.inventory.database.entities.Character
+import com.razakor.inventory.R
 
 
 class MainActivity : AppCompatActivity() {
@@ -45,12 +48,16 @@ class MainActivity : AppCompatActivity() {
             val characterAlertDialog = characterDialogBuilder.show()
 
             val spinnerRace: Spinner = characterDialog.findViewById(R.id.spinner_race)
-            val raceAA = ArrayAdapter(this, android.R.layout.simple_spinner_item, raceArray)
+            val raceAA = ArrayAdapter(this, android.R.layout.simple_spinner_item,
+                raceArray
+            )
             raceAA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerRace.adapter = raceAA
 
             val spinnerClass: Spinner = characterDialog.findViewById(R.id.spinner_class)
-            val classAA = ArrayAdapter(this, android.R.layout.simple_spinner_item, classArray)
+            val classAA = ArrayAdapter(this, android.R.layout.simple_spinner_item,
+                classArray
+            )
             classAA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerClass.adapter = classAA
 
@@ -69,8 +76,16 @@ class MainActivity : AppCompatActivity() {
                         description = characterDialog.edit_description.text.toString()
                     }
                     characters.add(character)
-                    addCharacterToDatabase(character, raceMap[character.race]!!, classMap[character.clas]!!)
-                    setCharacterIdFromDatabase(character, raceMap[character.race]!!, classMap[character.clas]!!)
+                    addCharacterToDatabase(
+                        character,
+                        raceMap[character.race]!!,
+                        classMap[character.clas]!!
+                    )
+                    setCharacterIdFromDatabase(
+                        character,
+                        raceMap[character.race]!!,
+                        classMap[character.clas]!!
+                    )
                     createInventoryInDatabase(character)
                     setInventoryIdFromDatabase(character)
                 } else {

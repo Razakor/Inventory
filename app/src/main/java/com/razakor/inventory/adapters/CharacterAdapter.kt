@@ -1,4 +1,4 @@
-package com.razakor.inventory
+package com.razakor.inventory.adapters
 
 import android.content.Context
 import android.content.Intent
@@ -9,6 +9,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import com.razakor.inventory.activities.CharacterViewActivity
+import com.razakor.inventory.database.deleteCharacterFromDatabase
+import com.razakor.inventory.database.entities.Character
+import com.razakor.inventory.R
 
 class CharacterAdapter(private val characters: MutableList<Character>)
     : RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {

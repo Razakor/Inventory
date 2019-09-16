@@ -1,4 +1,8 @@
-package com.razakor.inventory
+package com.razakor.inventory.database
+
+import com.razakor.inventory.database.entities.Character
+import com.razakor.inventory.database.entities.Inventory
+import com.razakor.inventory.database.entities.Item
 
 fun characterDataInit(characterList: MutableList<Character>) {
     val query =

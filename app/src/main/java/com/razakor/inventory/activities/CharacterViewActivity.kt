@@ -1,4 +1,4 @@
-package com.razakor.inventory
+package com.razakor.inventory.activities
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -7,9 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.text.Layout
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -17,10 +15,13 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
+import com.razakor.inventory.adapters.ItemAdapter
+import com.razakor.inventory.database.*
+import com.razakor.inventory.database.entities.Character
+import com.razakor.inventory.database.entities.Item
+import com.razakor.inventory.R
 import kotlinx.android.synthetic.main.activity_inventory.*
-import kotlinx.android.synthetic.main.edit_xp.*
 import kotlinx.android.synthetic.main.edit_xp.view.*
-import kotlinx.android.synthetic.main.edit_xp.view.edit_xp
 import kotlinx.android.synthetic.main.item_dialog.view.*
 
 class CharacterViewActivity : AppCompatActivity() {
@@ -56,12 +57,16 @@ class CharacterViewActivity : AppCompatActivity() {
             val itemAlertDialog = itemDialogBuilder.show()
 
             val spinnerType: Spinner = itemDialog.findViewById(R.id.spinner_type)
-            val typeAA = ArrayAdapter(this, android.R.layout.simple_spinner_item, typeArray)
+            val typeAA = ArrayAdapter(this, android.R.layout.simple_spinner_item,
+                typeArray
+            )
             typeAA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerType.adapter = typeAA
 
             val spinnerRarity: Spinner = itemDialog.findViewById(R.id.spinner_rarity)
-            val rarityAA = ArrayAdapter(this, android.R.layout.simple_spinner_item, rarityArray)
+            val rarityAA = ArrayAdapter(this, android.R.layout.simple_spinner_item,
+                rarityArray
+            )
             rarityAA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerRarity.adapter = rarityAA
 
@@ -80,8 +85,16 @@ class CharacterViewActivity : AppCompatActivity() {
                         description = itemDialog.edit_description.text.toString()
                     }
                     inventory.addItem(item)
-                    addItemToDatabase(item, rarityMap[item.rarity]!!, typeMap[item.type]!!)
-                    setItemIdFromDatabase(item, rarityMap[item.rarity]!!, typeMap[item.type]!!)
+                    addItemToDatabase(
+                        item,
+                        rarityMap[item.rarity]!!,
+                        typeMap[item.type]!!
+                    )
+                    setItemIdFromDatabase(
+                        item,
+                        rarityMap[item.rarity]!!,
+                        typeMap[item.type]!!
+                    )
                 } else {
                     Toast.makeText(this, "Set correct name", Toast.LENGTH_LONG).show()
                 }
@@ -169,7 +182,10 @@ class CharacterViewActivity : AppCompatActivity() {
                 descriptionAlertDialog.dismiss()
                 character.description = editDescription.text.toString()
                 characterDescription.text = character.description
-                editDescriptionInDatabase(character.id, character.description)
+                editDescriptionInDatabase(
+                    character.id,
+                    character.description
+                )
             }
 
             descriptionDialog.button_cancel.setOnClickListener {
@@ -236,7 +252,9 @@ class CharacterViewActivity : AppCompatActivity() {
         itemAdapter = ItemAdapter(items)
         itemRecyclerView.layoutManager = layoutManager
         itemRecyclerView.adapter = itemAdapter
-        deleteIcon = ContextCompat.getDrawable(this, R.drawable.ic_delete_white_40)!!
+        deleteIcon = ContextCompat.getDrawable(this,
+            R.drawable.ic_delete_white_40
+        )!!
 
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {

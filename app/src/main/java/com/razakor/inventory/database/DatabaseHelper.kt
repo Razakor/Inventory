@@ -1,4 +1,4 @@
-package com.razakor.inventory
+package com.razakor.inventory.database
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase

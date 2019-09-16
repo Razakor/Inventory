@@ -1,4 +1,4 @@
-package com.razakor.inventory
+package com.razakor.inventory.database.entities
 
 class Character {
 

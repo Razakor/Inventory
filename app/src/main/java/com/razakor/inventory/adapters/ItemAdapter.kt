@@ -1,4 +1,4 @@
-package com.razakor.inventory
+package com.razakor.inventory.adapters
 
 import android.app.AlertDialog
 import android.content.Context
@@ -12,6 +12,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.razakor.inventory.database.*
+import com.razakor.inventory.database.entities.Item
+import com.razakor.inventory.activities.ItemsActivity
+import com.razakor.inventory.R
 import kotlinx.android.synthetic.main.item_dialog.view.*
 
 class ItemAdapter(private val items: MutableList<Item>)
@@ -95,12 +99,16 @@ class ItemAdapter(private val items: MutableList<Item>)
 
 
         val spinnerType: Spinner = itemDialog.findViewById(R.id.spinner_type)
-        val typeAA = ArrayAdapter(context, android.R.layout.simple_spinner_item, typeArray)
+        val typeAA = ArrayAdapter(context, android.R.layout.simple_spinner_item,
+            typeArray
+        )
         typeAA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerType.adapter = typeAA
 
         val spinnerRarity: Spinner = itemDialog.findViewById(R.id.spinner_rarity)
-        val rarityAA = ArrayAdapter(context, android.R.layout.simple_spinner_item, rarityArray)
+        val rarityAA = ArrayAdapter(context, android.R.layout.simple_spinner_item,
+            rarityArray
+        )
         rarityAA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerRarity.adapter = rarityAA
 
@@ -126,7 +134,11 @@ class ItemAdapter(private val items: MutableList<Item>)
                     count = itemDialog.edit_count.text.toString().toInt()
                     description = itemDialog.edit_description.text.toString()
                 }
-                editItemInDatabase(item, rarityMap[item.rarity]!!, typeMap[item.type]!!)
+                editItemInDatabase(
+                    item,
+                    rarityMap[item.rarity]!!,
+                    typeMap[item.type]!!
+                )
             } else {
                 Toast.makeText(context, "Set correct name", Toast.LENGTH_LONG).show()
             }

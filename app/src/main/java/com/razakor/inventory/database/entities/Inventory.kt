@@ -1,4 +1,4 @@
-package com.razakor.inventory
+package com.razakor.inventory.database.entities
 
 class Inventory(character: Character) {
     var id: Int = 0

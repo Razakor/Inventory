@@ -1,6 +1,7 @@
-package com.razakor.inventory
+package com.razakor.inventory.database
 
 import android.database.sqlite.SQLiteDatabase
+import com.razakor.inventory.database.entities.Character
 
 lateinit var db: SQLiteDatabase
 
@@ -21,10 +22,14 @@ fun initDatabase(database: SQLiteDatabase) {
 }
 
 fun initMaps() {
-    raceMap = getTableMap("character_races")
-    classMap = getTableMap("character_classes")
-    rarityMap = getTableMap("item_rarities")
-    typeMap = getTableMap("item_types")
+    raceMap =
+        getTableMap("character_races")
+    classMap =
+        getTableMap("character_classes")
+    rarityMap =
+        getTableMap("item_rarities")
+    typeMap =
+        getTableMap("item_types")
 }
 
 fun mapsToArray() {
