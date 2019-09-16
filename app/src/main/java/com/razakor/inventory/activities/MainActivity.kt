@@ -72,8 +72,12 @@ class MainActivity : AppCompatActivity() {
                         name = characterDialog.edit_name.text.toString()
                         race = spinnerRace.selectedItem.toString()
                         clas = spinnerClass.selectedItem.toString()
-                        xp = characterDialog.edit_experience.text.toString().toInt()
-                        description = characterDialog.edit_description.text.toString()
+                        xp = if (characterDialog.edit_experience.text.toString() != "") {
+                            characterDialog.edit_experience.text.toString().toInt()
+                        } else 0
+                        description = if (characterDialog.edit_description.text.toString() != "") {
+                            characterDialog.edit_description.text.toString()
+                        } else null
                     }
                     characters.add(character)
                     addCharacterToDatabase(

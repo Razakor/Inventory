@@ -33,6 +33,6 @@ class Character {
             field = value
         }
     var lvl: Int = 1
-    var description: String = "Description"
+    var description: String? = null
     val inventory = Inventory(this)
 }

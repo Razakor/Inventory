@@ -6,7 +6,7 @@ class Item(inventory: Inventory) {
     var name: String = "Name"
     var rarity: String = "Rarity"
     var type: String = "Type"
-    var description: String = "Description"
     var count: Int = 1
-    var price: Int = 0
+    var price: Int? = null
+    var description: String? = null
 }

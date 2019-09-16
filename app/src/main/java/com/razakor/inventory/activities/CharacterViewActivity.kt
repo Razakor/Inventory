@@ -80,9 +80,15 @@ class CharacterViewActivity : AppCompatActivity() {
                         name = itemDialog.edit_name.text.toString()
                         type = spinnerType.selectedItem.toString()
                         rarity = spinnerRarity.selectedItem.toString()
-                        price = itemDialog.edit_price.text.toString().toInt()
-                        count = itemDialog.edit_count.text.toString().toInt()
-                        description = itemDialog.edit_description.text.toString()
+                        count = if (itemDialog.edit_count.text.toString() != "") {
+                            itemDialog.edit_count.text.toString().toInt()
+                        } else 1
+                        price = if (itemDialog.edit_price.text.toString() != "") {
+                            itemDialog.edit_price.text.toString().toInt()
+                        } else null
+                        description = if (itemDialog.edit_description.text.toString() != "") {
+                            itemDialog.edit_description.text.toString()
+                        } else null
                     }
                     inventory.addItem(item)
                     addItemToDatabase(
@@ -184,7 +190,7 @@ class CharacterViewActivity : AppCompatActivity() {
                 characterDescription.text = character.description
                 editDescriptionInDatabase(
                     character.id,
-                    character.description
+                    character.description ?: ""
                 )
             }
 

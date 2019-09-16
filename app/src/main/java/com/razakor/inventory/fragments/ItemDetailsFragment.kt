@@ -48,9 +48,17 @@ class ItemDetailsFragment : Fragment() {
             nameTextView.text = name
             typeTextView.text = type
             rarityTextView.text = rarity
-            priceTextView.text = "Price: $price"
             countTextView.text = "Count: $count"
-            descriptionTextView.text = description
+            if (price != null) {
+                priceTextView.text = "Price: $price"
+            } else {
+                priceTextView.text = ""
+            }
+            if(description == null) {
+                descriptionTextView.text = description
+            } else {
+                descriptionTextView.text = ""
+            }
         }
         return view
     }
