@@ -54,7 +54,7 @@ class ItemDetailsFragment : Fragment() {
             } else {
                 priceTextView.text = ""
             }
-            if(description == null) {
+            if(description != null) {
                 descriptionTextView.text = description
             } else {
                 descriptionTextView.text = ""

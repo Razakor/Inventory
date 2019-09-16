@@ -116,9 +116,9 @@ class ItemAdapter(private val items: MutableList<Item>)
             itemDialog.edit_name.setText(name)
             spinnerType.setSelection(typeMap[type]!! - 1)
             spinnerRarity.setSelection(rarityMap[rarity]!! - 1)
-            itemDialog.edit_price.setText(price.toString())
+            itemDialog.edit_price.setText(if (price != null) price.toString() else "")
             itemDialog.edit_count.setText(count.toString())
-            itemDialog.edit_description.setText(description)
+            itemDialog.edit_description.setText(description ?: "")
         }
 
         itemDialog.btnOK.setOnClickListener {
@@ -130,9 +130,15 @@ class ItemAdapter(private val items: MutableList<Item>)
                     name = itemDialog.edit_name.text.toString()
                     type = spinnerType.selectedItem.toString()
                     rarity = spinnerRarity.selectedItem.toString()
-                    price = itemDialog.edit_price.text.toString().toInt()
-                    count = itemDialog.edit_count.text.toString().toInt()
-                    description = itemDialog.edit_description.text.toString()
+                    count = if (itemDialog.edit_count.text.toString() != "") {
+                        itemDialog.edit_count.text.toString().toInt()
+                    } else 1
+                    price = if (itemDialog.edit_price.text.toString() != "") {
+                        itemDialog.edit_price.text.toString().toInt()
+                    } else null
+                    description = if (itemDialog.edit_description.text.toString() != "") {
+                        itemDialog.edit_description.text.toString()
+                    } else null
                 }
                 editItemInDatabase(
                     item,

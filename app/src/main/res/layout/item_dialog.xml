@@ -61,7 +61,7 @@
             android:layout_below="@+id/edit_price"
             android:layout_alignParentStart="true"
             android:gravity="start"
-            android:inputType="textCapSentences"
+            android:inputType="textMultiLine"
 
     />
 

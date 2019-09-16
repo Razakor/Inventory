@@ -22,7 +22,7 @@ fun characterDataInit(characterList: MutableList<Character>) {
         tmpCharacter.race = cursor.getString(2)
         tmpCharacter.clas = cursor.getString(3)
         tmpCharacter.xp = cursor.getInt(4)
-        tmpCharacter.description = cursor.getString(5)
+        tmpCharacter.description = if (cursor.getString(5) != "null") cursor.getString(5) else null
         characterList.add(tmpCharacter)
         cursor.moveToNext()
     }
@@ -157,8 +157,8 @@ fun itemsDataInit(inventory: Inventory) {
             name = cursor.getString(1)
             rarity = cursor.getString(2)
             type = cursor.getString(3)
-            price = cursor.getInt(4)
-            description = cursor.getString(5)
+            price = if (cursor.getInt(4) != 0) cursor.getInt(4) else null
+            description = if (cursor.getString(5) != "null") cursor.getString(5) else null
             count = cursor.getInt(6)
         }
         itemList.add(tmpItem)

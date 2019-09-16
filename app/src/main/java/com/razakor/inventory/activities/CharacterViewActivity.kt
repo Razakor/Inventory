@@ -160,7 +160,9 @@ class CharacterViewActivity : AppCompatActivity() {
 
             xpDialog.button_ok.setOnClickListener {
                 xpAlertDialog.dismiss()
-                character.xp = editXp.text.toString().toInt()
+                character.xp = if (editXp.text.toString() != "")
+                    editXp.text.toString().toInt()
+                else 0
                 characterXp.text = "Xp: ${character.xp}"
                 characterLvl.text = character.lvl.toString()
                 editXpInDatabase(character.id, character.xp)
@@ -226,11 +228,21 @@ class CharacterViewActivity : AppCompatActivity() {
                 moneyAlertDialog.dismiss()
 
                 with(character.inventory) {
-                    gold = editGold.text.toString().toInt()
-                    silver = editSilver.text.toString().toInt()
-                    copper = editCopper.text.toString().toInt()
-                    platinum = editPlatinum.text.toString().toInt()
-                    electrum = editElectrum.text.toString().toInt()
+                    gold = if (editGold.text.toString() != "")
+                        editGold.text.toString().toInt()
+                    else 0
+                    silver = if (editSilver.text.toString() != "")
+                        editSilver.text.toString().toInt()
+                    else 0
+                    copper = if (editCopper.text.toString() != "")
+                        editCopper.text.toString().toInt()
+                    else 0
+                    platinum = if (editPlatinum.text.toString() != "")
+                        editPlatinum.text.toString().toInt()
+                    else 0
+                    electrum = if (editElectrum.text.toString() != "")
+                        editElectrum.text.toString().toInt()
+                    else 0
 
                     characterGold.text = "Gold: $gold"
                     characterSilver.text = "Silver: $silver"
